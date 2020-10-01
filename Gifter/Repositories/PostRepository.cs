@@ -218,7 +218,7 @@ namespace Gifter.Repositories
                     DbUtils.AddParameter(cmd, "@Criterion", $"%{criterion}%");
                     var reader = cmd.ExecuteReader();
                     var posts = new List<Post>();
-
+                    
                     while (reader.Read())
                     {
                         posts.Add(DbUtils.NewPost(reader));
