@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using Gifter.Models;
 using Microsoft.Data.SqlClient;
 
 namespace Gifter.Utils
@@ -122,5 +125,65 @@ namespace Gifter.Utils
                 cmd.Parameters.AddWithValue(name, value);
             }
         }
+
+        /// <summary>
+        /// Generates a new Post object
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <returns></returns>
+       public static Post NewPost(SqlDataReader reader)
+        {
+            Post post = new Post()
+            {
+                Id = GetInt(reader, "PostId"),
+                Title = GetString(reader, "Title"),
+                Caption = GetString(reader, "Caption"),
+                DateCreated = GetDateTime(reader, "PostDateCreated"),
+                ImageUrl = GetString(reader, "PostImageUrl"),
+                UserProfileId = GetInt(reader, "PostUserProfileId"),
+                UserProfile = NewUser(reader),
+            };
+            return post;
+       }
+        
+        /// <summary>
+        /// Generates a new Post object with Comments
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <returns></returns>
+        public static Post NewPostWithComments(SqlDataReader reader)
+        {
+            Post post = new Post()
+            {
+                Id = GetInt(reader, "PostId"),
+                Title = GetString(reader, "Title"),
+                Caption = GetString(reader, "Caption"),
+                DateCreated = GetDateTime(reader, "PostDateCreated"),
+                ImageUrl = GetString(reader, "PostImageUrl"),
+                UserProfileId = GetInt(reader, "PostUserProfileId"),
+                UserProfile = NewUser(reader),
+                Comments = new List<Comment>()
+            };
+            return post;
+        }
+
+        /// <summary>
+        /// Generates a new UserProfile object.
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <returns></returns>
+        public static UserProfile NewUser(SqlDataReader reader)
+        {
+            UserProfile user = new UserProfile()
+            {
+                Id = GetInt(reader, "PostUserProfileId"),
+                Name = GetString(reader, "Name"),
+                Email = GetString(reader, "Email"),
+                DateCreated = GetDateTime(reader, "UserProfileDateCreated"),
+                ImageUrl = GetString(reader, "UserProfileImageUrl"),
+            };
+            return user;
+        }
+
     }
 }
