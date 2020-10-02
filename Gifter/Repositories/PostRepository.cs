@@ -263,7 +263,11 @@ namespace Gifter.Repositories
             }
         }
 
-
+        /// <summary>
+        /// Selects Posts with the associated UserProfile and Comments.
+        /// </summary>
+        /// <param name="qualifier">Allows you to adjust call to your needs; WHERE, ORDER BY, etc</param>
+        /// <returns></returns>
         private string PostWithCommentsQuery(string qualifier)
         {
             var sql = @"SELECT p.Id AS PostId, p.Title, p.Caption, p.DateCreated AS PostDateCreated,
@@ -279,7 +283,11 @@ namespace Gifter.Repositories
             sql += qualifier;
             return sql;
         }
-
+        /// <summary>
+        /// Selects Posts and the associated UserProfile.
+        /// </summary>
+        /// <param name="qualifier">Allows you to adjust call to your needs; WHERE, ORDER BY, etc</param>
+        /// <returns></returns>
         private string PostQuery(string qualifier)
         {
             var sql = @"SELECT p.Id AS PostId, p.Title, p.Caption, p.DateCreated AS PostDateCreated, 
