@@ -4,18 +4,18 @@ import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import Post from "./Post";
 
 const SearchPosts = () => {
-    const [search, setSearch] = useState({ Search: "" });
-    const { posts, searchPosts } = useContext(PostContext);
+    const [search, setSearch] = useState("");
+    const { searchPosts } = useContext(PostContext);
 
 
     const handleFieldChange = evt => {
-        const stateToChange = search;
-        stateToChange[evt.target.id] = evt.target.value;
+        const stateToChange = evt.target.value;
+        // stateToChange[evt.target.id] = evt.target.value;
         setSearch(stateToChange);
     };
 
     const newSearch = evt => {
-        searchPosts(search.Search);
+        searchPosts(search);
     }
 
     return (
