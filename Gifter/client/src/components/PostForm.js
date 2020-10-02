@@ -15,7 +15,7 @@ const PostForm = () => {
     const constructNewPost = evt => {
         addPost(post)
             .then(() => { getAllPosts() });
-        
+
     }
 
     return (
@@ -39,6 +39,7 @@ const PostForm = () => {
                     <Button color="primary" onClick={constructNewPost}>Submit!</Button>{' '}
                 </Form>
             </div>
+            <br />
         </>
     )
 
