@@ -203,7 +203,7 @@ namespace Gifter.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    var sql = PostQuery(" WHERE p.Title LIKE @Criterion OR p.Caption LIKE @Criterion");
+                    var sql = PostWithCommentsQuery(" WHERE p.Title LIKE @Criterion OR p.Caption LIKE @Criterion");
 
                     if (sortDescending)
                     {
@@ -218,10 +218,28 @@ namespace Gifter.Repositories
                     DbUtils.AddParameter(cmd, "@Criterion", $"%{criterion}%");
                     var reader = cmd.ExecuteReader();
                     var posts = new List<Post>();
-                    
+
                     while (reader.Read())
                     {
-                        posts.Add(DbUtils.NewPost(reader));
+                        var postId = DbUtils.GetInt(reader, "PostId");
+                        var existingPost = posts.FirstOrDefault(p => p.Id == postId);
+
+                        if (existingPost == null)
+                        {
+                            existingPost = DbUtils.NewPostWithComments(reader);
+                            posts.Add(existingPost);
+                        }
+
+                        if (DbUtils.IsNotDbNull(reader, "CommentId"))
+                        {
+                            existingPost.Comments.Add(new Comment()
+                            {
+                                Id = DbUtils.GetInt(reader, "CommentId"),
+                                Message = DbUtils.GetString(reader, "Message"),
+                                PostId = postId,
+                                UserProfileId = DbUtils.GetInt(reader, "CommentUserProfileId")
+                            });
+                        }
                     }
 
                     reader.Close();

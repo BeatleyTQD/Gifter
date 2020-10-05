@@ -12,7 +12,7 @@ const Post = ({ post }) => {
                     <strong>{post.title}</strong>
                 </p>
                 <p>{post.caption}</p>
-                <h5>Comments</h5>
+                <p>Comments</p>
                 {post.comments.map((comment) => {
                     return <p key={comment.id}>{comment.userProfileId}: {comment.message}</p>
                 })}
