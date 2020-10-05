@@ -2,6 +2,7 @@ import React from "react";
 import { Card, CardImg, CardBody } from "reactstrap";
 
 const Post = ({ post }) => {
+
     return (
         <Card className="m-4">
             <p className="text-left px-2">Posted by: {post.userProfile.name}</p>
@@ -11,6 +12,10 @@ const Post = ({ post }) => {
                     <strong>{post.title}</strong>
                 </p>
                 <p>{post.caption}</p>
+                <h5>Comments</h5>
+                {post.comments.map((comment) => {
+                    return <p key={comment.id}>{comment.userProfileId}: {comment.message}</p>
+                })}
             </CardBody>
         </Card>
     );

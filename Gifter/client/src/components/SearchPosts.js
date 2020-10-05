@@ -10,11 +10,10 @@ const SearchPosts = () => {
 
     const handleFieldChange = evt => {
         const stateToChange = evt.target.value;
-        // stateToChange[evt.target.id] = evt.target.value;
         setSearch(stateToChange);
     };
 
-    const newSearch = evt => {
+    const newSearch = () => {
         searchPosts(search);
     }
 
