@@ -50,6 +50,13 @@ namespace Gifter.Controllers
             return Ok(post);
         }
 
+        [HttpGet("users/{id}")]
+        public IActionResult PostsFromUser(int id)
+        {
+            var posts = _postRepository.PostsFromUser(id);
+            return Ok(posts);
+        }
+
         [HttpPost]
         public IActionResult Post(Post post)
         {

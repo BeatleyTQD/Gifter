@@ -131,6 +131,48 @@ namespace Gifter.Repositories
             }
         }
 
+        public List<Post> PostsFromUser(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = PostWithCommentsQuery(" WHERE p.UserProfileId = @id");
+                    DbUtils.AddParameter(cmd, "@Id", id);
+                    var reader = cmd.ExecuteReader();
+                    var posts = new List<Post>();
+
+
+                    while (reader.Read())
+                    {
+                        var postId = DbUtils.GetInt(reader, "PostId");
+                        var existingPost = posts.FirstOrDefault(p => p.Id == postId);
+
+                        if (existingPost == null)
+                        {
+                            existingPost = DbUtils.NewPostWithComments(reader);
+                            posts.Add(existingPost);
+                        }
+
+                        if (DbUtils.IsNotDbNull(reader, "CommentId"))
+                        {
+                            existingPost.Comments.Add(new Comment()
+                            {
+                                Id = DbUtils.GetInt(reader, "CommentId"),
+                                Message = DbUtils.GetString(reader, "Message"),
+                                PostId = postId,
+                                UserProfileId = DbUtils.GetInt(reader, "CommentUserProfileId")
+                            });
+                        }
+                    }
+
+                    reader.Close();
+                    return posts;
+                }
+            }
+        }
+
         public void Add(Post post)
         {
             using (var conn = Connection)
