@@ -1,10 +1,13 @@
 import React, { useContext, useState } from "react";
 import { PostContext } from "../providers/PostProvider";
 import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import { useHistory } from "react-router-dom";
 
 const PostForm = () => {
     const [post, setPost] = useState({ UserProfileId: 1, Title: "", ImageURL: "", Caption: "", DateCreated: "" })
     const { addPost, getAllPosts } = useContext(PostContext);
+    const history = useHistory();
+
 
     const handleFieldChange = evt => {
         const stateToChange = post;
@@ -14,7 +17,7 @@ const PostForm = () => {
 
     const constructNewPost = evt => {
         addPost(post)
-            .then(() => { getAllPosts() });
+            .then(() => { history.push('/') });
 
     }
 
