@@ -177,6 +177,7 @@ namespace Gifter.Utils
             UserProfile user = new UserProfile()
             {
                 Id = GetInt(reader, "PostUserProfileId"),
+                FirebaseUserId = GetString(reader, "FirebaseUserId"),
                 Name = GetString(reader, "Name"),
                 Email = GetString(reader, "Email"),
                 DateCreated = GetDateTime(reader, "UserProfileDateCreated"),
