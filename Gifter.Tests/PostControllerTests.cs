@@ -179,6 +179,33 @@ namespace Gifter.Tests
             Assert.Null(postFromDb);
         }
 
+        [Fact]
+        public void Search_Returns_Accurate_Results()
+        {
+            //generates a new list of generic posts
+            var posts = CreateTestPosts(5);
+            //updates the title and caption to "test" -- the search parameter
+            var test = "test";
+            posts[3].Title = test;
+            posts[1].Caption = test;
+
+            //the two posts with the updated test case
+            var expectedPosts = new List<Post>(){ posts[1], posts[3] };
+
+            var repo = new InMemoryPostRepository(posts);
+            var controller = new PostController(repo);
+
+            //Act
+            var result = controller.Search("test", true);
+
+            //Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var actualPosts = Assert.IsType<List<Post>>(okResult.Value);
+
+            //compares the search results against the hard coded expected results
+            Assert.Equal(actualPosts, expectedPosts);
+        }
+
         private List<Post> CreateTestPosts(int count)
         {
             var posts = new List<Post>();
