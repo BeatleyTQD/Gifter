@@ -333,7 +333,7 @@ namespace Gifter.Repositories
             var sql = @"SELECT p.Id AS PostId, p.Title, p.Caption, p.DateCreated AS PostDateCreated,
                                p.ImageUrl AS PostImageUrl, p.UserProfileId AS PostUserProfileId,
 
-                               up.Name, up.Bio, up.Email, up.DateCreated AS UserProfileDateCreated,
+                               up.Name, up.FirebaseUserId, up.Bio, up.Email, up.DateCreated AS UserProfileDateCreated,
                                up.ImageUrl AS UserProfileImageUrl,
 
                                c.Id AS CommentId, c.Message, c.UserProfileId AS CommentUserProfileId
@@ -353,7 +353,7 @@ namespace Gifter.Repositories
             var sql = @"SELECT p.Id AS PostId, p.Title, p.Caption, p.DateCreated AS PostDateCreated, 
                                p.ImageUrl AS PostImageUrl, p.UserProfileId AS PostUserProfileId,
 
-                               up.Name, up.Bio, up.Email, up.DateCreated AS UserProfileDateCreated, 
+                               up.Name, up.FirebaseUserId, up.Bio, up.Email, up.DateCreated AS UserProfileDateCreated, 
                                up.ImageUrl AS UserProfileImageUrl
                           FROM Post p 
                                LEFT JOIN UserProfile up ON p.UserProfileId = up.id";

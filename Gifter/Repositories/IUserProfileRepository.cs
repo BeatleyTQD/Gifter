@@ -8,6 +8,7 @@ namespace Gifter.Repositories
     {
         List<UserProfile> GetAll();
         UserProfile GetById(int id);
+        UserProfile GetByFirebaseUserId(string firebaseUserId);
         void Add(UserProfile user);
         void Update(UserProfile user);
         void Delete(int id);

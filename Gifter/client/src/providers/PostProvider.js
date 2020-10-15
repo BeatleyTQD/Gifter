@@ -1,14 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { UserProfileContext } from "./UserProfileProvider";
+
 
 export const PostContext = React.createContext();
 
 export const PostProvider = (props) => {
     const [posts, setPosts] = useState([]);
+    const { getToken } = useContext(UserProfileContext);
 
     const getAllPosts = () => {
-        return fetch("/api/post/getwithcomments")
-            .then((res) => res.json())
-            .then(setPosts);
+        getToken().then((token) =>
+            fetch("/api/post/getwithcomments", {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }).then((res) => res.json())
+                .then(setPosts));
     };
 
     const getPost = (id) => {
@@ -20,13 +28,20 @@ export const PostProvider = (props) => {
     }
 
     const addPost = (post) => {
-        return fetch("/api/post", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(post),
-        });
+        getToken().then((token) =>
+            fetch("/api/post", {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(post),
+            }).then(res => {
+                if (res.ok) {
+                    return res.json();
+                }
+                throw new Error("Unauthorized");
+            }))
     };
 
     const searchPosts = (search) => {

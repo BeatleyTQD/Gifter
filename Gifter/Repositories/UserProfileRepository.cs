@@ -92,7 +92,7 @@ namespace Gifter.Repositories
                 {
                     cmd.CommandText = @"SELECT Id, FirebaseUserId, Name, Email, ImageUrl, Bio, DateCreated 
                                           FROM UserProfile
-                                         WHERE Id = @id";
+                                         WHERE FirebaseUserId = @firebaseUserId";
 
                     DbUtils.AddParameter(cmd, "@FirebaseUserId", firebaseUserId);
 
