@@ -26,7 +26,7 @@ namespace Gifter.Controllers
             return Ok(_userProfileRepository.GetAll());
         }
 
-        /*
+            
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -37,7 +37,7 @@ namespace Gifter.Controllers
             }
             return Ok(user);
         }
-        */
+        
 
         [HttpGet("{firebaseUserId}")]
         public IActionResult GetByFirebaseUserId(string firebaseUserId)
